@@ -10,23 +10,19 @@ object ExpandExpressions {
   private def _expandFullMults(cur: Expr, last: Expr): Expr =
     if (cur == last) cur
     else {
-      val curExpanded = expandMults(cur)
+      val curExpanded = expand(cur)
       _expandFullMults(curExpanded, cur)
     }
 
-  private def __expandMults(xs: List[Expr], ys: List[Expr]): List[Expr] =
-    (xs, ys) match {
-      case (x :: xsTail, y :: ysTail) =>
-        Mult(x :: (y :: ysTail)) :: __expandMults(xsTail, ys)
-      case _ => Nil
+  private def expand(expr: Expr): Expr = {
+    println(expr)
+    expr match {
+      case Mult(Plus(xs), expr) => Plus(xs.map(x => Mult(x, expr)))
+      case Mult(expr, Plus(ys)) => Plus(ys.map(y => Mult( expr,y)))
+      case Plus(expressions) => Plus(expressions.map(expand))
+      case _ => expr
     }
-
-  private def expandMults(expr: Expr): Expr = expr match {
-    case Mult(List(x))                  => x
-    case Mult(Plus(x :: xs) :: y :: ys) => Plus(__expandMults(x :: xs, y :: ys))
-    case Mult(x :: Plus(ps) :: rest)    => Plus(ps.map(e => Mult(x :: e :: rest)))
-    case Mult(x :: rest)                => Mult(x :: expandMults(Mult(rest)) :: Nil)
-    case Plus(x)                        => Plus(x.map(expandMults))
   }
 
 }
+
