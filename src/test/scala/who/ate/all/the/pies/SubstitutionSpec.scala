@@ -5,7 +5,6 @@ import org.scalatest.matchers.should.Matchers
 import who.ate.all.the.pies.Substitution._
 
 class SubstitutionSpec extends AnyFlatSpec with Matchers {
-  // Assume your Expr types and case classes are defined appropriately
 
   "Substitute" should "replace occurrences in a simple expression" in {
     val expr = Mult(SymbolType('A, 2), Const(4.0))
