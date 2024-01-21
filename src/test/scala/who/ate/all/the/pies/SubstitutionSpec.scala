@@ -18,7 +18,7 @@ class SubstitutionSpec extends AnyFlatSpec with Matchers {
 
   it should "replace a Mult occurrence in an expression" in {
     val expr = Plus(Mult(Const(9.0), Const(4.0)))
-    val subExpr = Const(9.0) * Const(4.0)
+    val subExpr = Const(9.0) :* Const(4.0)
     val replacementExpr = Plus(Mult(Const(18.0), Const(8.0)))
     val result = expr.substitute(subExpr, replacementExpr)
 
@@ -28,7 +28,7 @@ class SubstitutionSpec extends AnyFlatSpec with Matchers {
 
   it should "replace a Mult occurrence in an expression with additional terms" in {
     val expr = Plus(Mult(Const(9.0), Const(4.0)), Mult(Const(2.1), Const(2.2)))
-    val subExpr = Mult(Const(9.0), Const(4.0))
+    val subExpr = Const(9.0) :* Const(4.0)
     val replacementExpr = Plus(Mult(Const(18.0), Const(8.0)))
     val result = expr.substitute(subExpr, replacementExpr)
 
@@ -40,12 +40,12 @@ class SubstitutionSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "replace a Mult occurrence in an expression with multiple Mults" in {
-    val expr = Const(1) * Const(2) * Const(3)
-    val subExpr = Const(1) * Const(2)
-    val replacementExpr = Const(11) * Const(22)
+    val expr = Const(1) :* Const(2) :* Const(3)
+    val subExpr = Const(1) :* Const(2)
+    val replacementExpr = Const(11) :* Const(22)
     val result = expr.substitute(subExpr, replacementExpr)
 
-    result shouldEqual Const(11) * Const(22) * Const(3)
+    result shouldEqual Const(11) :* Const(22) :* Const(3)
 
   }
 
