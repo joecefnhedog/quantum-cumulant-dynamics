@@ -15,7 +15,6 @@ object ExpandExpressions {
     }
 
   private def expand(expr: Expr): Expr = {
-    println(expr)
     expr match {
       case Mult(Plus(xs), expr) => Plus(xs.map(x => Mult(x, expr)))
       case Mult(expr, Plus(ys)) => Plus(ys.map(y => Mult( expr,y)))
