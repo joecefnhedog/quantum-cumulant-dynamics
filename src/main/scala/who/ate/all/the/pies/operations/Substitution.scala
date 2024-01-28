@@ -1,4 +1,6 @@
-package who.ate.all.the.pies
+package who.ate.all.the.pies.operations
+
+import who.ate.all.the.pies.expression.{Expr, Mult, Plus}
 
 object Substitution {
   implicit class Substitute(expression: Expr) {

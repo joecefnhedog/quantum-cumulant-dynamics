@@ -1,8 +1,10 @@
-package who.ate.all.the.pies
+package who.ate.all.the.pies.operations
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import who.ate.all.the.pies.Substitution._
+import who.ate.all.the.pies.expression.{Const, Mult, Plus, SymbolType}
+import who.ate.all.the.pies.operations.Substitution._
+import who.ate.all.the.pies.linear.Commutator
 
 class SubstitutionSpec extends AnyFlatSpec with Matchers {
 
@@ -47,6 +49,27 @@ class SubstitutionSpec extends AnyFlatSpec with Matchers {
 
     result shouldEqual Const(11) :* Const(22) :* Const(3)
 
+  }
+
+
+  it should "replace" in {
+    val expr = Mult(
+      SymbolType(Symbol("Q"), 1),
+      Mult(SymbolType(Symbol("P"), 1), SymbolType(Symbol("P"), 1))
+    )
+    val subExpr = SymbolType('Q, 1) :* SymbolType('P, 1)
+
+    val positionMomentumRelations = Commutator(
+      SymbolType('Q, 1),
+      SymbolType('P, 1),
+      SymbolType('i, 1) :* SymbolType('hbar, 1)
+    )
+
+    val replacement = positionMomentumRelations.AB
+
+    val result = expr.substitute(subExpr,replacement)
+
+    println(result)
   }
 
 

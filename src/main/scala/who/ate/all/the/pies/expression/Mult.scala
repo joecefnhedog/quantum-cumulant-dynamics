@@ -1,4 +1,4 @@
-package who.ate.all.the.pies
+package who.ate.all.the.pies.expression
 
 case class Mult(exprL: Expr, exprR: Expr) extends Expr {
   //  override def toString: String = expressions.map(_.toString).mkString(".")

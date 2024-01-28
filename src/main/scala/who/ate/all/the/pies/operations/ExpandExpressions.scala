@@ -1,4 +1,6 @@
-package who.ate.all.the.pies
+package who.ate.all.the.pies.operations
+
+import who.ate.all.the.pies.expression.{Const, Expr, Mult, Plus}
 
 object ExpandExpressions {
 
@@ -19,6 +21,8 @@ object ExpandExpressions {
       case Mult(Plus(xs), expr) => Plus(xs.map(x => Mult(x, expr)))
       case Mult(expr, Plus(ys)) => Plus(ys.map(y => Mult( expr,y)))
       case Plus(expressions) => Plus(expressions.map(expand))
+      case Mult(Mult(exprL, exprR),exprRChild) => Mult(exprL,Mult(exprR,exprRChild))
+      case Mult(exprL, exprR) => Mult(expand(exprL), expand(exprR))
       case _ => expr
     }
   }
